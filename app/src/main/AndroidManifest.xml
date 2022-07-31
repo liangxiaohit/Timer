@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.mytimer">
 
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,11 +14,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyTimer"
         tools:targetApi="31">
+
+        <service
+            android:name=".Service.TimerService"
+            android:enabled="true"
+            android:exported="true" />
+
         <activity
             android:name=".Base"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
+            android:launchMode="singleTask"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
