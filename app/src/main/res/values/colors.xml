@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+
+    <color name="blue_4D7CFE">#4D7CFE</color>
+    <color name="gray_F2F4F6">#F2F4F6</color>
+    <color name="gray_D8DCE6">#D8DCE6</color>
+    <color name="gray_98A9BC">#98A9BC</color>
+    <color name="gray_E8ECEF">#E8ECEF</color>
+    <color name="gray_D6D7D7">#D6D7D7</color>
+    <color name="blue_303996">#303996</color>
+    <color name="title_778CA2">#778CA2</color>
+    <color name="slash_E8ECEF">#E8ECEF</color>
+    <color name="gray_F8FAFB">#F8FAFB</color>
+    <color name="green_99B945">#99B945</color>
+    <color name="green_6DD230">#6DD230</color>
+    <color name="green_B3F40A">#B3F40A</color>
+    <color name="red_FE774D">#FE774D</color>
+    <color name="red_FB3D01">#FB3D01</color>
+    <color name="pink_FE4D97">#FE4D97</color>
+    <color name="yellow_FED04D">#FED04D</color>
+    <color name="yellow_FEEE4D">#FEEE4D</color>
+    <color name="oringe_FF7C4D">#FF7C4D</color>
+</resources>
