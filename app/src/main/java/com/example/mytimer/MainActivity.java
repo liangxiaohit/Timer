@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.mytimer.Service.TimerService;
 import com.example.mytimer.Tools.CheckAll;
@@ -23,20 +25,17 @@ public class MainActivity extends Base {
 
     private EditText mHourStudy,mMinStudy,mSecStudy,mHourRest,mMinRest,mSecRest = null;
 
+    private TextView mReset = null;
+
     private Button mStart = null;
 
-    private CountDownTimer mTimer = null;
-
     private int mNumberHourStudy,mNumberMinStudy,mNumberSecStudy,mNumberHourRest,mNumberMinRest,mNumberSecRest = 0;
-
-    private boolean isStudyRun = true;
 
     private boolean isRunning = false;
 
     private AlertDialog.Builder builder = null;
 
     private TimerReceiver mMyReceiver = null;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +64,9 @@ public class MainActivity extends Base {
         mSecRest = findViewById(R.id.mytimer_main_et_sec_rest);
         mStart = findViewById(R.id.mytimer_main_bt_start);
 
+        View mTitleView = findViewById(R.id.title_in_base_main);
+        mReset =mTitleView.findViewById(R.id.BaseActivity_TV_reset);
+
         createBuilder();
 
     }
@@ -77,22 +79,6 @@ public class MainActivity extends Base {
 
     @Override
     public void setListener() {
-
-//        mStart.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                isRunning = !isRunning;
-//                if(isRunning){
-//                    mStart.setText("STOP");
-//                    getAllTime();
-//                    startTimer(mNumberHourStudy,mNumberMinStudy,mNumberSecStudy);
-//                }else {
-//                    mStart.setText("START");
-//                    mTimer.cancel();
-//                }
-//
-//            }
-//        });
 
         mStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,6 +96,11 @@ public class MainActivity extends Base {
                     sec = mNumberSecRest;
                 }
 
+                mStart.setText("STOP");
+                mStart.setEnabled(false);
+                Toast.makeText(MainActivity.this,"Time countdown start!",Toast.LENGTH_LONG).show();
+                setEditTextAvalible(false);
+
 
                 Intent intent = new Intent(MainActivity.this,TimerService.class);
                 intent.putExtra("HOUR",hour);
@@ -117,6 +108,16 @@ public class MainActivity extends Base {
                 intent.putExtra("SEC",sec);
                 startService(intent);
 
+            }
+        });
+
+
+        mReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setEditTextAvalible(true);
+                mStart.setText("START");
+                mStart.setEnabled(true);
             }
         });
     }
@@ -137,7 +138,6 @@ public class MainActivity extends Base {
         registerReceiver(mMyReceiver,mFilter);
     }
 
-    private AlertDialog mDialog = null;
     public void createBuilder(){
 
         builder = new AlertDialog.Builder(this);
@@ -147,49 +147,23 @@ public class MainActivity extends Base {
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 
             public void onClick(DialogInterface dialog, int which) {
-                mTimer = null;
-                mPlayTimes=-1;
-                if(isStudyRun){
-                    mHourStudy.setText(mNumberHourStudy+"");
-                    mMinStudy.setText(mNumberMinStudy+"");
-                    mSecStudy.setText(mNumberSecStudy+"");
-                    startTimer(mNumberHourRest,mNumberMinRest,mNumberSecRest);
-                }else {
-                    mHourRest.setText(mNumberHourRest+"");
-                    mMinRest.setText(mNumberMinRest+"");
-                    mSecRest.setText(mNumberSecRest+"");
-                    startTimer(mNumberHourStudy,mNumberMinStudy,mNumberSecStudy);
-                }
+                mStart.setText("START");
+                mStart.setEnabled(true);
+                setEditTextAvalible(true);
+                Tools.getInstance().getmMedia().stopPlaying();
             }
         });
 
-        mDialog = builder.create();
-        mDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_DIALOG);
-
     }
 
-    public void startTimer(int hour, int min, int sec){
-
-        mTimer = new CountDownTimer((hour * 60 * 60 + min * 60 + sec) * 1000,1000) {
-            @Override
-            public void onTick(long l) {
-                if(isStudyRun){
-                    mMinStudy.setText((Integer.parseInt(mMinStudy.getText().toString())-1)+"");
-                }else {
-                    mMinRest.setText((Integer.parseInt(mMinStudy.getText().toString())-1)+"");
-                }
-            }
-
-            @Override
-            public void onFinish() {
-                builder.show();
-            }
-        };
-
-        mTimer.start();
+    public void setEditTextAvalible(boolean isAvalible){
+        mHourStudy.setEnabled(isAvalible);
+        mMinStudy.setEnabled(isAvalible);
+        mSecStudy.setEnabled(isAvalible);
+        mHourRest.setEnabled(isAvalible);
+        mMinRest.setEnabled(isAvalible);
+        mSecRest.setEnabled(isAvalible);
     }
-
-    private int mPlayTimes = 2000;
 
     public class TimerReceiver extends BroadcastReceiver {
 
@@ -200,24 +174,9 @@ public class MainActivity extends Base {
             if(Constants.NAME_RECEIVER.equals(mAction)){
                 System.out.println("-------Receiver get");
                 builder.show();
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        while (mPlayTimes > 0){
-                            Tools.getInstance().showAlertToUser(MainActivity.this,"",Constants.SOUND_CORRECT);
-
-                            try {
-                                Thread.sleep(2000);
-                                mPlayTimes--;
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                    }
-                }).start();
-
+                Tools.getInstance().showAlertToUser(MainActivity.this,"",Constants.SOUND_CORRECT);
             }
         }
     }
+
 }

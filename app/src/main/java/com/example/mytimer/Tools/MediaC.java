@@ -35,7 +35,7 @@ public class MediaC {
         }
     }
 
-    public void playSound(Context activity, int soundType) {
+    public void playSound(Context activity, int soundType,boolean isLoop) {
 
         new Thread(new Runnable() {
             @Override
@@ -55,7 +55,19 @@ public class MediaC {
 
                 mMediaPlayer.setOnCompletionListener(CompleteLisner);
 
+                if(isLoop){
+                    mMediaPlayer.setLooping(true);
+                }
             }
         }).start();
+    }
+
+    public void stopPlaying(){
+        if(mMediaPlayer.isPlaying() || mMediaPlayer.isLooping()){
+            mMediaPlayer.setLooping(false);
+            mMediaPlayer.stop();
+            mMediaPlayer.reset();
+            mMediaPlayer.release();
+        }
     }
 }

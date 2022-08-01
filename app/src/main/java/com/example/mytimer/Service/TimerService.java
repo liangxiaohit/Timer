@@ -57,8 +57,6 @@ public class TimerService extends Service {
         sec = intent.getIntExtra("SEC",0);
         mTotalTime = hour * 60 * 60 + min * 60 + sec;
         System.out.println("--------onStartCommand "+hour+" "+min+" "+sec);
-        mIntent.setAction(Constants.NAME_RECEIVER);
-//        mIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         countdown();
         return super.onStartCommand(intent, flags, startId);
     }
@@ -83,13 +81,12 @@ public class TimerService extends Service {
                 //发送广播
                 System.out.println("-------------"+mTotalTime);
                 mTotalTime =mTotalTime - 1;
-
-
             }
 
             @Override
             public void onFinish() {
                 //发送广播
+                mIntent.setAction(Constants.NAME_RECEIVER);
                 sendBroadcast(mIntent);
             }
         };
