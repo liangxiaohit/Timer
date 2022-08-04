@@ -11,7 +11,7 @@
         android:id="@+id/title_in_base_main"
         layout="@layout/base_activity"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="60dp"
         />
 
     <TextView
@@ -29,6 +29,19 @@
         app:layout_constraintHeight_percent="0.100"
         app:layout_constraintWidth_percent="0.800"
         app:layout_constraintVertical_bias="0.200"/>
+
+    <TimePicker
+        android:id="@+id/mytimer_main_time_picker"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:timePickerMode="spinner"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+
+        />
+
 
     <EditText
         android:id="@+id/mytimer_main_et_hour_study"

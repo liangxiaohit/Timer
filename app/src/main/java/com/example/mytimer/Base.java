@@ -11,7 +11,7 @@ public abstract class  Base extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Tools.getInstance().hideStateBar(getWindow());
+        Tools.getInstance().hideStateBar(getWindow(),this);
         supportRequestWindowFeature(getWindow().FEATURE_NO_TITLE);
         setContentView(R.layout.base_activity);
     }

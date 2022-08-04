@@ -37,6 +37,8 @@ public class MainActivity extends Base {
 
     private TimerReceiver mMyReceiver = null;
 
+    private ChooseAddressWheel mWheel = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
